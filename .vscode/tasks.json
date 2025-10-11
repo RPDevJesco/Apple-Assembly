@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Assemble",
+            "type": "shell",
+            "command": "as",
+            "args": [
+                "-o",
+                "${fileDirname}/${fileBasenameNoExtension}.o",
+                "${file}"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Link",
+            "type": "shell",
+            "command": "ld -o ${fileDirname}/${fileBasenameNoExtension} ${fileDirname}/${fileBasenameNoExtension}.o -lSystem -syslibroot `xcrun -sdk macosx --show-sdk-path` -e _main -arch arm64",
+            "dependsOn": ["Assemble"],
+            "problemMatcher": []
+        },
+        {
+            "label": "Build and Run",
+            "type": "shell",
+            "command": "${fileDirname}/${fileBasenameNoExtension}",
+            "dependsOn": ["Link"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "presentation": {
+                "focus": true,
+                "panel": "dedicated",
+                "reveal": "always",
+                "clear": true
+            }
+        },
+        {
+            "label": "Build Only",
+            "type": "shell",
+            "command": "echo 'Build complete!'",
+            "dependsOn": ["Link"],
+            "group": "build",
+            "problemMatcher": []
+        }
+    ]
+}
